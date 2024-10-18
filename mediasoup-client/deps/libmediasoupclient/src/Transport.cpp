@@ -202,7 +202,8 @@ namespace mediasoupclient
 			std::for_each(
 			  encodings->begin(),
 			  encodings->end(),
-			  [&normalizedEncodings](const webrtc::RtpEncodingParameters& entry) {
+			  [&normalizedEncodings](const webrtc::RtpEncodingParameters& entry)
+			  {
 				  webrtc::RtpEncodingParameters encoding;
 
 				  encoding.active                   = entry.active;
@@ -271,8 +272,7 @@ namespace mediasoupclient
 		{
 			MSC_THROW_ERROR("Cannot set both maxRetransmits and maxPacketLifeTime");
 		}
-        // TODO(haiyangwu): PR ?
-		if (maxRetransmits != -1)
+		if (maxRetransmits != 0)
 		{
 			dataChannelInit.maxRetransmits = maxRetransmits;
 		}

@@ -23,7 +23,6 @@ set(
 set(
 	HEADER_FILES
 	include/sdptransform.hpp
-	include/json.hpp
 )
 
 add_library(sdptransform STATIC ${SOURCE_FILES} ${HEADER_FILES})

@@ -11,7 +11,6 @@
 #include "include/jni_generator_helper.h"
 
 #include "sdk/android/native_api/jni/class_loader.h"
-#include "rtc_base/atomic_ops.h"
 
 namespace mediasoupclient
 {

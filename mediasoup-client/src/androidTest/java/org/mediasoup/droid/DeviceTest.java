@@ -16,6 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mediasoup.droid.data.Parameters;
+import org.webrtc.PeerConnectionFactory;
 
 @RunWith(AndroidJUnit4.class)
 public class DeviceTest extends BaseTest {
@@ -87,7 +88,57 @@ public class DeviceTest extends BaseTest {
     }
   }
 
+
   @Test
+  public void testLoadWithPeerConnectionFactory() throws MediasoupException {
+    String routerRtpCapabilities = Parameters.nativeGenRouterRtpCapabilities();
+    assertFalse(TextUtils.isEmpty(routerRtpCapabilities));
+
+    // 'device->Load()' succeeds.
+    PeerConnection.Options options = new PeerConnection.Options();
+    options.setFactory(PeerConnectionUtils.getPeerConnectionFactory(mContext));
+
+    mDevice.load(routerRtpCapabilities, options);
+    assertTrue(mDevice.isLoaded());
+
+    // device.Load() fails if already loaded"
+    {
+      exceptionException(() -> mDevice.load(routerRtpCapabilities, options), "already loaded");
+    }
+    // device.CanProduce() with 'audio'/'video' kind returns true
+    {
+      assertFalse(TextUtils.isEmpty(mDevice.getRtpCapabilities()));
+      assertTrue(mDevice.canProduce("audio"));
+      assertTrue(mDevice.canProduce("video"));
+    }
+
+    // device->CanProduce() with invalid kind throws exception.
+    {
+      exceptionException(() -> mDevice.canProduce("chicken"));
+    }
+
+    // 'device->CreateSendTransport()' succeeds.
+    {
+      final FakeTransportListener.FakeSendTransportListener listener =
+              new FakeTransportListener.FakeSendTransportListener();
+      SendTransport transport =
+              mDevice.createSendTransport(
+                      listener, mId, mIceParameters, mIceCandidates, mDtlsParameters, mSctpParameters, options, null);
+      transport.dispose();
+    }
+
+    // 'device->CreateRecvTransport()' succeeds.
+    {
+      final FakeTransportListener.FakeRecvTransportListener listener =
+              new FakeTransportListener.FakeRecvTransportListener();
+      RecvTransport transport =
+              mDevice.createRecvTransport(
+                      listener, mId, mIceParameters, mIceCandidates, mDtlsParameters, mSctpParameters, options, null);
+      transport.dispose();
+    }
+  }
+
+    @Test
   public void testLoad() throws MediasoupException {
     String routerRtpCapabilities = Parameters.nativeGenRouterRtpCapabilities();
     assertFalse(TextUtils.isEmpty(routerRtpCapabilities));

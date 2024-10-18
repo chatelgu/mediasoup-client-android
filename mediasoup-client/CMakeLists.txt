@@ -1,14 +1,14 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.14)
 
 project(mediasoupclient_so LANGUAGES CXX)
 
 # Set version number.
 set(mediasoup_client_so_VERSION_MAJOR 3)
-set(mediasoup_client_so_VERSION_MINOR 0)
-set(mediasoup_client_so_VERSION_PATCH 8)
+set(mediasoup_client_so_VERSION_MINOR 4)
+set(mediasoup_client_so_VERSION_PATCH 3)
 
 # C++ standard requirements.
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(

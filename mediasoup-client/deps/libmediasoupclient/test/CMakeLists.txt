@@ -1,3 +1,7 @@
+cmake_minimum_required(VERSION 3.14)
+
+include(FetchContent)
+
 set(
 	SOURCE_FILES
 	src/Device.test.cpp
@@ -20,11 +24,20 @@ set(
 # Create target.
 add_executable(test_mediasoupclient ${SOURCE_FILES})
 
+# Source deps
+message(STATUS "\nFetching catch2...\n")
+FetchContent_Declare(
+	catch2
+  	GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+  	GIT_TAG v2.13.10
+)
+FetchContent_MakeAvailable(catch2)
+
 # Private (implementation) header files.
 target_include_directories(test_mediasoupclient PRIVATE
 	include
 	${mediasoupclient_SOURCE_DIR}/include
-	${mediasoupclient_SOURCE_DIR}/deps/catch/single_include/catch2
+	${catch2_SOURCE_DIR}/single_include/catch2
 )
 
 if(APPLE)
@@ -67,4 +80,8 @@ add_subdirectory(deps/libwebrtc "${CMAKE_CURRENT_BINARY_DIR}/libwebrtc")
 # Public (interface) dependencies.
 target_link_libraries(test_mediasoupclient PUBLIC
 	webrtc
+	${LIBWEBRTC_BINARY_PATH}/api/video_codecs/libbuiltin_video_encoder_factory${CMAKE_STATIC_LIBRARY_SUFFIX}
+	${LIBWEBRTC_BINARY_PATH}/api/video_codecs/libbuiltin_video_decoder_factory${CMAKE_STATIC_LIBRARY_SUFFIX}
+	${LIBWEBRTC_BINARY_PATH}/media/librtc_simulcast_encoder_adapter${CMAKE_STATIC_LIBRARY_SUFFIX}
+	${LIBWEBRTC_BINARY_PATH}/media/librtc_internal_video_codecs${CMAKE_STATIC_LIBRARY_SUFFIX}
 )

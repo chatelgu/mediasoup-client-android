@@ -13,7 +13,6 @@
 
 #include "sdk/android/native_api/jni/jvm.h"
 #include "rtc_base/checks.h"
-#include "rtc_base/constructor_magic.h"
 #include "rtc_base/logging.h"
 
 namespace mediasoupclient
@@ -101,7 +100,8 @@ protected:
 private:
 	jobject obj_ = nullptr;
 
-	RTC_DISALLOW_COPY_AND_ASSIGN(JavaRef);
+	JavaRef(const JavaRef&) = delete;
+	JavaRef& operator=(const  JavaRef&) = delete;
 };
 
 // Generic base class for ScopedJavaLocalRef and ScopedJavaGlobalRef. Useful
@@ -134,7 +134,8 @@ protected:
 	}
 
 private:
-	RTC_DISALLOW_COPY_AND_ASSIGN(JavaRef);
+	JavaRef(const JavaRef&) = delete;
+	JavaRef& operator=(const  JavaRef&) = delete;
 };
 
 // Holds a local reference to a JNI method parameter.
@@ -171,7 +172,8 @@ public:
 	}
 
 private:
-	RTC_DISALLOW_COPY_AND_ASSIGN(JavaParamRef);
+	JavaParamRef(const JavaParamRef&) = delete;
+	JavaParamRef& operator=(const  JavaParamRef&) = delete;
 };
 
 // Holds a local reference to a Java object. The local reference is scoped

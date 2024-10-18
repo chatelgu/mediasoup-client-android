@@ -715,6 +715,6 @@ public class MediasoupClientTest extends BaseTest {
 
   @Test
   public void version() {
-    assertEquals(MediasoupClient.version(), "3.4.0");
+    assertEquals(MediasoupClient.version(), "3.4.3");
   }
 }
